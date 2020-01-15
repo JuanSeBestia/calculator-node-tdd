@@ -18,5 +18,3 @@ app.use(function(request, response){
     response.status(404).send({url: request.originalUrl + ' not found'});
 })
 app.listen(port);
-
-console.log('YEY port:', port);
