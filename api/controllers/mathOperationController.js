@@ -14,14 +14,49 @@ exports.create_math_operation = function (request, response) {
 }
 
 exports.list_math_operations = function (request, response) {
-    MathOperation.find({}, function (error, math_operation) {
+    var pageNo = parseInt(request.query.page);
+    var pageSize = parseInt(request.query.size);
+    var query = {};
+    //Set a default pagesize
+    if (!pageSize) {
+        pageSize = 10;
+    }
+    //set a default pageNumber
+    if (!pageNo) {
+        pageNo = 1;
+    }
+    if (pageNo > 0) {
+        query.skip = pageSize * (pageNo - 1);
+        query.limit = pageSize;
+    }
+    //Add the countData from records
+    MathOperation.countDocuments({}, function (error, totalCount) {
         if (error) {
             response.send(error);
         }
-        
-        if (request.query.username) {
-            math_operation = math_operation.filter(item => item.username.toLowerCase() === request.query.username.toLowerCase());
-        }
-        response.json(math_operation);
+        MathOperation.find({}, {}, query, function (error, math_operation) {
+            let res = {};
+            if (error) {
+                res = {
+                    error: true,
+                    errorMessage: error,
+                }
+            }
+            else {
+                if (request.query.username) {
+                    math_operation = math_operation.filter(item => item.username.toLowerCase() === request.query.username.toLowerCase());
+                    totalCount = math_operation.length;
+                }
+                var totalPages = Math.ceil(totalCount / pageSize);
+                res = {
+                    "data": math_operation,
+                    "totalPages": totalPages,
+                    "currentPage": pageNo,
+                    "pageSize": pageSize,
+                    "count": totalCount
+                }
+            }
+            response.json(res);
+        });
     });
 }
