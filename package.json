@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "start:dev": "nodemon server.js",
+    "heroku:login": "heroku login",
+    "heroku:install:git": "heroku git:remote -a calculator-node-tdd",
+    "heroku:deploy:staging": "git push heroku $(git rev-parse --abbrev-ref HEAD):master"
   },
   "repository": {
     "type": "git",
@@ -23,6 +27,7 @@
   },
   "homepage": "https://github.com/JuanSeBestia/calculator-node-tdd#readme",
   "devDependencies": {
+    "heroku": "^7.36.3",
     "nodemon": "^2.0.2"
   },
   "dependencies": {

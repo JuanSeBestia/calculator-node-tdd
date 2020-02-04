@@ -29,9 +29,26 @@ We will use tecnologies wich autors have the oportunities to learn, We use the s
 
 [Jess casas](https://github.com/jlcasasg) will use Jest.
 
-### Deployd
+### Deployment
 
-[JuanSeBestia](github.com/JuanSeBestia) would use Heorku
+We use Heroku to deploy the service in Staging, so when new commit in develop branch is madded, Heroku would deploy a new version of Staging with develop branch changes
+
+### Manual deploy
+
+If you need deploy manually in Staging, you need follow these steps:
+
+1. Login in heroku with JuanSe.Cloud@gmail.com
+    ```bash 
+    npm run heroku:login
+    ```
+2. Sync your git with heroku
+    ```bash 
+    npm run heroku:install:git
+    ```
+3. Push changes in Heroku
+    ```bash 
+    npm run heroku:deploy:staging
+    ```
 
 ### CI/CD
 
