@@ -7,8 +7,10 @@ exports.create_math_operation = function (request, response) {
     var new_math_operation = new MathOperation(request.body);
     new_math_operation.save(function (error, math_operation) {
         if (error) {
+            response.status(400);
             response.send(error);
         }
+        response.status(201);
         response.json(math_operation);
     });
 }
@@ -32,6 +34,7 @@ exports.list_math_operations = function (request, response) {
     //Add the countData from records
     MathOperation.countDocuments({}, function (error, totalCount) {
         if (error) {
+            response.status(400);
             response.send(error);
         }
         MathOperation.find({}, {}, query, function (error, math_operation) {
@@ -49,11 +52,11 @@ exports.list_math_operations = function (request, response) {
                 }
                 var totalPages = Math.ceil(totalCount / pageSize);
                 res = {
-                    "data": math_operation,
-                    "totalPages": totalPages,
-                    "currentPage": pageNo,
-                    "pageSize": pageSize,
-                    "count": totalCount
+                    data: math_operation,
+                    totalPages: totalPages,
+                    currentPage: pageNo,
+                    pageSize: pageSize,
+                    count: totalCount,
                 }
             }
             response.json(res);
