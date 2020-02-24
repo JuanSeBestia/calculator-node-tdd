@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var MathOperationSchema= new Schema({
+var MathOperationSchema = new Schema({
     username: { 
         type: String, 
         required: 'Add a username'
